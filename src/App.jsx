@@ -47,21 +47,18 @@ function App() {
           const mesh = new THREE.Mesh(geometry, material);
           meshRef.current = mesh;
           
-          // Centraliza a geometria
           geometry.computeBoundingBox();
           const center = geometry.boundingBox.getCenter(new THREE.Vector3());
           mesh.position.sub(center);
 
           scene.add(mesh);
 
-          // Ajusta a câmera para enquadrar o objeto
           const box = new THREE.Box3().setFromObject(mesh);
           const size = box.getSize(new THREE.Vector3());
           const maxDim = Math.max(size.x, size.y, size.z);
           camera.position.z = maxDim * 2;
           camera.lookAt(scene.position);
 
-          // Atualiza os controles
           controls.update();
         },
         (xhr) => {
@@ -75,7 +72,6 @@ function App() {
 
     loadPLYFile('/folha.ply');
 
-    // Adiciona luzes
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
     scene.add(ambientLight);
 
@@ -86,9 +82,9 @@ function App() {
     const animate = () => {
       requestAnimationFrame(animate);
 
-      // Aplica uma leve rotação ao objeto
       if (meshRef.current) {
-        meshRef.current.rotation.y += 0.005; // Ajuste este valor para controlar a velocidade da rotação
+        meshRef.current.rotation.y += 0.005;
+        meshRef.current.rotation.x += 0.005;
       }
 
       controls.update();
