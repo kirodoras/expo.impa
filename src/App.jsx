@@ -604,7 +604,7 @@ function App() {
               fontWeight: "500",
             }}
           >
-            ⚙️ Controles
+           Controles
           </h3>
           <div style={{ marginBottom: "16px" }}>
             <div
@@ -792,7 +792,7 @@ function App() {
               fontWeight: "500",
             }}
           >
-            🎯 Modelos Disponíveis
+            Modelos Disponíveis
           </h3>
           <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
             {availableModels.map((model, index) => (
@@ -867,7 +867,7 @@ function App() {
               fontWeight: "500",
             }}
           >
-            📊 Status:
+            Status:
           </div>
           <div
             style={{
@@ -877,8 +877,8 @@ function App() {
             }}
           >
             {currentModel
-              ? `✅ ${currentModel}`
-              : "⏳ Nenhum modelo selecionado"}
+              ? `${currentModel}`
+              : "Nenhum modelo selecionado"}
           </div>
           {loading && (
             <div
