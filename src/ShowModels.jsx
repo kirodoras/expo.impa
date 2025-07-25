@@ -47,7 +47,7 @@ export default function ShowModels() {
   const meshRef = useRef();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [showWireframe, setShowWireframe] = useState(true);
+  const [showWireframe, setShowWireframe] = useState(false);
   const [isRotating, setIsRotating] = useState(true);
   const [rotationSpeed, setRotationSpeed] = useState(0.005);
   const [isMobile, setIsMobile] = useState(false);
