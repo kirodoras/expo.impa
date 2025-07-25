@@ -498,19 +498,21 @@ export default function ShowModels() {
               background: "#23234a",
             }}
           />
+          <div
+            style={{
+              color: "#aab3ff",
+              fontSize: 12,
+              textAlign: "center",
+              minWidth: 140,
+              fontWeight: 500,
+              textShadow: "0 1px 4px #0007",
+              marginTop: 10,
+            }}
+          >
+            Navegue, gire, aproxime e afaste com o mouse ou toque.
+          </div>
         </div>
-        <div
-          style={{
-            color: "#aab3ff",
-            fontSize: 12,
-            textAlign: "center",
-            minWidth: 140,
-            fontWeight: 500,
-            textShadow: "0 1px 4px #0007",
-          }}
-        >
-          Navegue, gire, aproxime e afaste com o mouse ou toque.
-        </div>
+
       </div>
     </div>
   );
