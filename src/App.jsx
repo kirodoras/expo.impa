@@ -1,7 +1,7 @@
-import { useRef, useEffect, useState } from 'react';
-import * as THREE from 'three';
-import { PLYLoader } from 'three/examples/jsm/loaders/PLYLoader';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { useRef, useEffect, useState } from "react";
+import * as THREE from "three";
+import { PLYLoader } from "three/examples/jsm/loaders/PLYLoader";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 function App() {
   const mountRef = useRef(null);
@@ -16,14 +16,21 @@ function App() {
   const [currentModel, setCurrentModel] = useState("");
   const [loading, setLoading] = useState(false);
   const [rotationSpeed, setRotationSpeed] = useState(0.005);
-  const [showWireframe, setShowWireframe] = useState(false);
+  const [showWireframe, setShowWireframe] = useState(true); // Agora ON por padrão
   const [isRotating, setIsRotating] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [sidebarVisible, setSidebarVisible] = useState(true);
   const [isDragOver, setIsDragOver] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(null);
 
-  const availableModels = ["folha0.ply", "folha1.ply"];
+  const availableModels = [
+    "cilindro_hossein.ply",
+    "cilindro.ply",
+    "cubica_hossein.ply",
+    "gen2_hossein.ply",
+    "hossein1.ply",
+    "vander.ply",
+  ];
 
   // Inicialização da cena 3D
   useEffect(() => {
@@ -59,10 +66,28 @@ function App() {
     directionalLight.position.set(1, 1, 1).normalize();
     scene.add(directionalLight);
 
-    // Carregar modelo inicial
+    // Função para enquadrar a câmera usando bounding sphere
+    const fitCameraToObject = (object, camera, controls) => {
+      const boundingSphere = new THREE.Sphere();
+      new THREE.Box3().setFromObject(object).getBoundingSphere(boundingSphere);
+      const { radius } = boundingSphere;
+      const fov = camera.fov * (Math.PI / 180);
+      // const aspect = camera.aspect;
+      // Calcula a distância ideal para caber o objeto inteiro
+      const distance = radius / Math.sin(fov / 2);
+      camera.position.set(0, 0, distance * 1.1); // 1.1 para dar um pequeno espaço extra
+      camera.lookAt(0, 0, 0);
+      if (controls) {
+        controls.target.set(0, 0, 0);
+        controls.update();
+      }
+    };
+
+    // Carregar modelo inicial com wireframe ON
     const loadInitialModel = () => {
+      setShowWireframe(true); // Garante que o estado também fique ON
       const loader = new PLYLoader();
-      loader.load("/objects/folha0.ply", (geometry) => {
+      loader.load("/objects/cilindro_hossein.ply", (geometry) => {
         geometry.computeVertexNormals();
         const hasColors = geometry.attributes.color !== undefined;
 
@@ -71,7 +96,7 @@ function App() {
           color: hasColors ? 0xffffff : 0x00ff00,
           side: THREE.DoubleSide,
           flatShading: false,
-          wireframe: false,
+          wireframe: true, // ON
         });
 
         const mesh = new THREE.Mesh(geometry, material);
@@ -83,18 +108,12 @@ function App() {
 
         scene.add(mesh);
 
-        const box = new THREE.Box3().setFromObject(mesh);
-        const size = box.getSize(new THREE.Vector3());
-        const maxDim = Math.max(size.x, size.y, size.z);
-        camera.position.z = maxDim * 2;
-        camera.lookAt(scene.position);
-
-        controls.update();
+        fitCameraToObject(mesh, camera, controls);
       });
     };
 
     loadInitialModel();
-    setCurrentModel("folha0.ply");
+    setCurrentModel("cilindro_hossein.ply");
 
     return () => {
       if (currentMount && renderer.domElement) {
@@ -105,8 +124,8 @@ function App() {
 
   useEffect(() => {
     return () => {
-      uploadedFiles.forEach(file => {
-        if (file.url.startsWith('blob:')) {
+      uploadedFiles.forEach((file) => {
+        if (file.url.startsWith("blob:")) {
           URL.revokeObjectURL(file.url);
         }
       });
@@ -165,6 +184,7 @@ function App() {
   }, []);
 
   const loadPLYFile = (url) => {
+    setShowWireframe(true); // Sempre ativa o wireframe ao carregar
     setLoading(true);
     const loader = new PLYLoader();
     loader.load(
@@ -182,7 +202,7 @@ function App() {
           color: hasColors ? 0xffffff : 0x00ff00,
           side: THREE.DoubleSide,
           flatShading: false,
-          wireframe: showWireframe,
+          wireframe: true, // Sempre ON ao carregar
         });
 
         const mesh = new THREE.Mesh(geometry, material);
@@ -194,12 +214,16 @@ function App() {
 
         sceneRef.current.add(mesh);
 
-        const box = new THREE.Box3().setFromObject(mesh);
-        const size = box.getSize(new THREE.Vector3());
-        const maxDim = Math.max(size.x, size.y, size.z);
-        cameraRef.current.position.z = maxDim * 2;
-        cameraRef.current.lookAt(sceneRef.current.position);
-
+        // Ajuste de câmera para enquadrar o objeto usando bounding sphere
+        const boundingSphere = new THREE.Sphere();
+        new THREE.Box3().setFromObject(mesh).getBoundingSphere(boundingSphere);
+        const { radius } = boundingSphere;
+        const fov = cameraRef.current.fov * (Math.PI / 180);
+        // const aspect = cameraRef.current.aspect;
+        const distance = radius / Math.sin(fov / 2);
+        cameraRef.current.position.set(0, 0, distance * 1.1);
+        cameraRef.current.lookAt(0, 0, 0);
+        controlsRef.current.target.set(0, 0, 0);
         controlsRef.current.update();
         setLoading(false);
       },
@@ -221,25 +245,36 @@ function App() {
   };
 
   const processFiles = (files) => {
-    const plyFiles = Array.from(files).filter(file => 
-      file.name.toLowerCase().endsWith('.ply')
+    const plyFiles = Array.from(files).filter((file) =>
+      file.name.toLowerCase().endsWith(".ply")
     );
 
-    console.log('Arquivos recebidos:', files.length);
-    console.log('Arquivos .ply encontrados:', plyFiles.length);
-    console.log('Lista de arquivos:', Array.from(files).map(f => ({ name: f.name, type: f.type, size: f.size })));
+    console.log("Arquivos recebidos:", files.length);
+    console.log("Arquivos .ply encontrados:", plyFiles.length);
+    console.log(
+      "Lista de arquivos:",
+      Array.from(files).map((f) => ({
+        name: f.name,
+        type: f.type,
+        size: f.size,
+      }))
+    );
 
     if (plyFiles.length === 0) {
       alert("Nenhum arquivo .ply encontrado");
       return;
     }
 
-    setUploadProgress(`Processando ${plyFiles.length} arquivo${plyFiles.length > 1 ? 's' : ''} .ply...`);
+    setUploadProgress(
+      `Processando ${plyFiles.length} arquivo${
+        plyFiles.length > 1 ? "s" : ""
+      } .ply...`
+    );
 
     const newFiles = [];
     let processedCount = 0;
 
-    plyFiles.forEach(file => {
+    plyFiles.forEach((file) => {
       try {
         const url = URL.createObjectURL(file);
         newFiles.push({ name: file.name, url });
@@ -251,8 +286,8 @@ function App() {
     });
 
     if (processedCount > 0) {
-      setUploadedFiles(prev => [...prev, ...newFiles]);
-      
+      setUploadedFiles((prev) => [...prev, ...newFiles]);
+
       // Carregar o primeiro arquivo automaticamente
       if (newFiles.length > 0) {
         loadPLYFile(newFiles[0].url);
@@ -272,7 +307,7 @@ function App() {
     const plyFiles = [];
 
     for (let file of Array.from(files)) {
-      if (file.name.toLowerCase().endsWith('.ply')) {
+      if (file.name.toLowerCase().endsWith(".ply")) {
         plyFiles.push(file);
       }
     }
@@ -308,7 +343,7 @@ function App() {
       return new Promise((resolve) => {
         if (entry.isFile) {
           entry.file((file) => {
-            if (file.name.toLowerCase().endsWith('.ply')) {
+            if (file.name.toLowerCase().endsWith(".ply")) {
               files.push(file);
               console.log(`Arquivo .ply encontrado: ${file.name}`);
             }
@@ -336,22 +371,24 @@ function App() {
             promises.push(processEntry(entry));
           }
         }
-        
+
         await Promise.all(promises);
         console.log(`Total de arquivos .ply encontrados: ${files.length}`);
-        
+
         if (files.length > 0) {
           processFiles(files);
         } else {
           alert("Nenhum arquivo .ply encontrado nos itens arrastados");
         }
       } else {
-        const droppedFiles = Array.from(e.dataTransfer.files).filter(file => 
-          file.name.toLowerCase().endsWith('.ply')
+        const droppedFiles = Array.from(e.dataTransfer.files).filter((file) =>
+          file.name.toLowerCase().endsWith(".ply")
         );
-        
-        console.log(`Fallback: ${droppedFiles.length} arquivos .ply encontrados`);
-        
+
+        console.log(
+          `Fallback: ${droppedFiles.length} arquivos .ply encontrados`
+        );
+
         if (droppedFiles.length > 0) {
           processFiles(droppedFiles);
         } else {
@@ -388,33 +425,38 @@ function App() {
   };
 
   const clearUploadedFiles = () => {
-    if (uploadedFiles.length > 0 && window.confirm("Deseja remover todos os arquivos carregados?")) {
-      uploadedFiles.forEach(file => {
-        if (file.url.startsWith('blob:')) {
+    if (
+      uploadedFiles.length > 0 &&
+      window.confirm("Deseja remover todos os arquivos carregados?")
+    ) {
+      uploadedFiles.forEach((file) => {
+        if (file.url.startsWith("blob:")) {
           URL.revokeObjectURL(file.url);
         }
       });
       setUploadedFiles([]);
 
-      const isCurrentModelUploaded = uploadedFiles.some(file => file.name === currentModel);
+      const isCurrentModelUploaded = uploadedFiles.some(
+        (file) => file.name === currentModel
+      );
       if (isCurrentModelUploaded) {
-        loadPLYFile('/objects/folha0.ply');
-        setCurrentModel('folha0.ply');
+        loadPLYFile("/objects/cilindro_hossein.ply");
+        setCurrentModel("cilindro_hossein.ply");
       }
     }
   };
 
   const removeUploadedFile = (fileName) => {
-    const fileToRemove = uploadedFiles.find(f => f.name === fileName);
-    if (fileToRemove && fileToRemove.url.startsWith('blob:')) {
+    const fileToRemove = uploadedFiles.find((f) => f.name === fileName);
+    if (fileToRemove && fileToRemove.url.startsWith("blob:")) {
       URL.revokeObjectURL(fileToRemove.url);
     }
-    
-    setUploadedFiles(prev => prev.filter(f => f.name !== fileName));
-    
+
+    setUploadedFiles((prev) => prev.filter((f) => f.name !== fileName));
+
     if (currentModel === fileName) {
-      loadPLYFile('/objects/folha0.ply');
-      setCurrentModel('folha0.ply');
+      loadPLYFile("/objects/cilindro_hossein.ply");
+      setCurrentModel("cilindro_hossein.ply");
     }
   };
 
@@ -505,19 +547,22 @@ function App() {
           >
             {isDragOver ? "Solte aqui!" : "UPLOAD PLY"}
           </div>
-          
+
           {!isDragOver && (
             <>
-              <div style={{
-                color: "#888",
-                fontSize: "12px",
-                marginBottom: "16px",
-                lineHeight: "1.4"
-              }}>
-                Arraste arquivos .ply ou pastas aqui<br/>
+              <div
+                style={{
+                  color: "#888",
+                  fontSize: "12px",
+                  marginBottom: "16px",
+                  lineHeight: "1.4",
+                }}
+              >
+                Arraste arquivos .ply ou pastas aqui
+                <br />
                 ou clique para selecionar
               </div>
-              
+
               <input
                 ref={fileInputRef}
                 type="file"
@@ -526,7 +571,7 @@ function App() {
                 style={{ display: "none" }}
                 multiple
               />
-              
+
               <input
                 type="file"
                 webkitdirectory=""
@@ -534,8 +579,15 @@ function App() {
                 style={{ display: "none" }}
                 id="directoryInput"
               />
-              
-              <div style={{ display: "flex", gap: "8px", justifyContent: "center", flexWrap: "wrap" }}>
+
+              <div
+                style={{
+                  display: "flex",
+                  gap: "8px",
+                  justifyContent: "center",
+                  flexWrap: "wrap",
+                }}
+              >
                 <button
                   onClick={() => fileInputRef.current.click()}
                   style={{
@@ -549,14 +601,20 @@ function App() {
                     fontWeight: "500",
                     transition: "background-color 0.2s ease",
                   }}
-                  onMouseOver={(e) => (e.target.style.backgroundColor = "#5a5fcf")}
-                  onMouseOut={(e) => (e.target.style.backgroundColor = "#646cff")}
+                  onMouseOver={(e) =>
+                    (e.target.style.backgroundColor = "#5a5fcf")
+                  }
+                  onMouseOut={(e) =>
+                    (e.target.style.backgroundColor = "#646cff")
+                  }
                 >
                   📄 Arquivos
                 </button>
-                
+
                 <button
-                  onClick={() => document.getElementById('directoryInput').click()}
+                  onClick={() =>
+                    document.getElementById("directoryInput").click()
+                  }
                   style={{
                     backgroundColor: "#22c55e",
                     color: "white",
@@ -568,21 +626,27 @@ function App() {
                     fontWeight: "500",
                     transition: "background-color 0.2s ease",
                   }}
-                  onMouseOver={(e) => (e.target.style.backgroundColor = "#16a34a")}
-                  onMouseOut={(e) => (e.target.style.backgroundColor = "#22c55e")}
+                  onMouseOver={(e) =>
+                    (e.target.style.backgroundColor = "#16a34a")
+                  }
+                  onMouseOut={(e) =>
+                    (e.target.style.backgroundColor = "#22c55e")
+                  }
                 >
                   📁 Pasta
                 </button>
               </div>
             </>
           )}
-          
+
           {isDragOver && (
-            <div style={{
-              fontSize: "14px",
-              color: "#22c55e",
-              marginTop: "8px"
-            }}>
+            <div
+              style={{
+                fontSize: "14px",
+                color: "#22c55e",
+                marginTop: "8px",
+              }}
+            >
               Arquivos .ply e pastas são suportados
             </div>
           )}
@@ -604,7 +668,7 @@ function App() {
               fontWeight: "500",
             }}
           >
-           Controles
+            Controles
           </h3>
           <div style={{ marginBottom: "16px" }}>
             <div
@@ -692,12 +756,14 @@ function App() {
         </div>
         {uploadedFiles.length > 0 && (
           <div style={{ marginBottom: "24px" }}>
-            <div style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              marginBottom: "12px"
-            }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginBottom: "12px",
+              }}
+            >
               <h3
                 style={{
                   color: "#fff",
@@ -846,7 +912,10 @@ function App() {
                 >
                   {index + 1}
                 </div>
-                Folha {index}
+                {(() => {
+                  const name = model.replace(/_/g, " ").replace(/\.ply$/i, "");
+                  return name.charAt(0).toUpperCase() + name.slice(1);
+                })()}
               </button>
             ))}
           </div>
@@ -876,9 +945,7 @@ function App() {
               marginBottom: "8px",
             }}
           >
-            {currentModel
-              ? `${currentModel}`
-              : "Nenhum modelo selecionado"}
+            {currentModel ? `${currentModel}` : "Nenhum modelo selecionado"}
           </div>
           {loading && (
             <div
@@ -939,7 +1006,8 @@ function App() {
                 borderRadius: "6px",
               }}
             >
-              💡 Dica: Arraste arquivos .ply ou pastas diretamente na área de upload
+              💡 Dica: Arraste arquivos .ply ou pastas diretamente na área de
+              upload
             </div>
           )}
         </div>
