@@ -222,30 +222,46 @@ export default function ShowModels() {
           boxShadow: "0 -8px 32px #000b",
           borderTop: "1.5px solid #3939a1cc",
           borderRadius: "24px 24px 0 0",
-          padding: isMobile ? "18px 8px 28px 8px" : "36px 0 44px 0",
+          padding: isMobile ? "10px 4px 12px 4px" : "36px 0 44px 0",
           display: "flex",
           flexDirection: isMobile ? "column" : "row",
-          alignItems: "center",
+          alignItems: isMobile ? "center" : "stretch",
           justifyContent: "center",
-          gap: isMobile ? 16 : 56,
+          gap: isMobile ? 8 : 0,
           transition: "all 0.3s cubic-bezier(.4,0,.2,1)",
         }}
       >
+        {/* Wrapper para alinhar verticalmente no desktop */}
         <div
           style={{
-            minWidth: 200,
+            display: isMobile ? "contents" : "flex",
+            flexDirection: isMobile ? undefined : "row",
+            alignItems: isMobile ? undefined : "center",
+            justifyContent: isMobile ? undefined : "center",
+            gap: isMobile ? undefined : 32,
+            width: isMobile ? undefined : "100%",
+            maxWidth: isMobile ? undefined : 900,
+            margin: isMobile ? undefined : "0 auto",
+          }}
+        >
+        {/* Nome e arquivo */}
+        <div
+          style={{
+            minWidth: isMobile ? 0 : 200,
             textAlign: "center",
-            marginBottom: isMobile ? 10 : 0,
+            marginBottom: isMobile ? 2 : 0,
+            padding: isMobile ? 0 : undefined,
           }}
         >
           <div
             style={{
               color: "#fff",
               fontWeight: 700,
-              fontSize: 18,
+              fontSize: isMobile ? 15 : 18,
               letterSpacing: 0.5,
-              marginBottom: 2,
+              marginBottom: isMobile ? 0 : 2,
               textShadow: "0 2px 8px #0007",
+              lineHeight: 1.1,
             }}
           >
             {modelTitles[currentIndex]}
@@ -253,214 +269,130 @@ export default function ShowModels() {
           <div
             style={{
               color: "#aab3ff",
-              fontSize: 13,
+              fontSize: isMobile ? 11 : 13,
               fontWeight: 500,
               letterSpacing: 0.2,
+              marginTop: isMobile ? 0 : undefined,
+              lineHeight: 1.1,
             }}
           >
             {availableModels[currentIndex]}
           </div>
         </div>
+        {/* Navegação */}
         <div
           style={{
             display: "flex",
-            flexDirection: "column",
+            flexDirection: "row",
             alignItems: "center",
-            gap: 4,
-            minWidth: 120,
+            justifyContent: "center",
+            gap: isMobile ? 10 : 32,
+            margin: isMobile ? "4px 0" : "0 auto",
+            width: isMobile ? undefined : "100%",
           }}
         >
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 32,
-              width: "100%",
-              margin: "0 auto",
-            }}
-          >
-            <button
-              onClick={goPrev}
-              style={{
-                ...navBtnStyle,
-                boxShadow: "0 2px 12px #3939a155",
-                fontSize: 32,
-                padding: 0,
-                width: 54,
-                height: 54,
-                minWidth: 54,
-                minHeight: 54,
-                maxWidth: 54,
-                maxHeight: 54,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-              title={"Anterior"}
-              aria-label="Anterior"
-            >
-              <svg
-                width="28"
-                height="28"
-                viewBox="0 0 28 28"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <circle
-                  cx="14"
-                  cy="14"
-                  r="13"
-                  stroke="#646cff"
-                  strokeWidth="2"
-                  fill="#23234a"
-                />
-                <polyline
-                  points="17,8 11,14 17,20"
-                  fill="none"
-                  stroke="#646cff"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>
-            <button
-              onClick={goNext}
-              style={{
-                ...navBtnStyle,
-                boxShadow: "0 2px 12px #3939a155",
-                fontSize: 32,
-                padding: 0,
-                width: 54,
-                height: 54,
-                minWidth: 54,
-                minHeight: 54,
-                maxWidth: 54,
-                maxHeight: 54,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-              title={"Próximo"}
-              aria-label="Próximo"
-            >
-              <svg
-                width="28"
-                height="28"
-                viewBox="0 0 28 28"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <circle
-                  cx="14"
-                  cy="14"
-                  r="13"
-                  stroke="#646cff"
-                  strokeWidth="2"
-                  fill="#23234a"
-                />
-                <polyline
-                  points="11,8 17,14 11,20"
-                  fill="none"
-                  stroke="#646cff"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              width: "100%",
-              marginTop: 2,
-              fontSize: 12,
-              color: "#aab3ff",
-              fontWeight: 600,
-              minHeight: 18,
-              alignItems: "center",
-              gap: 0,
-            }}
-          >
-            <span
-              style={{
-                minWidth: 90,
-                maxWidth: 90,
-                textAlign: "left",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap",
-                display: "inline-block",
-                height: 18,
-              }}
-            >
-              {
-                modelTitles[
-                  (currentIndex - 1 + modelTitles.length) % modelTitles.length
-                ]
-              }
-            </span>
-            <span
-              style={{
-                minWidth: 90,
-                maxWidth: 90,
-                textAlign: "right",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap",
-                display: "inline-block",
-                height: 18,
-              }}
-            >
-              {modelTitles[(currentIndex + 1) % modelTitles.length]}
-            </span>
-          </div>
-        </div>
-        <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
           <button
-            onClick={() => setIsRotating((v) => !v)}
+            onClick={goPrev}
             style={{
-              ...ctrlBtnStyle,
-              background: isRotating
-                ? "linear-gradient(90deg,#22c55e 60%,#4ade80 100%)"
-                : "linear-gradient(90deg,#ef4444 60%,#f87171 100%)",
-              boxShadow: isRotating
-                ? "0 2px 12px #22c55e55"
-                : "0 2px 12px #ef444455",
-              border: isRotating
-                ? "1.5px solid #22c55e"
-                : "1.5px solid #ef4444",
-              color: "#fff",
-              fontWeight: 700,
-              letterSpacing: 0.2,
-              transition: "all 0.2s cubic-bezier(.4,0,.2,1)",
-              minWidth: 160,
-              maxWidth: 160,
-              minHeight: 44,
-              maxHeight: 44,
+              ...navBtnStyle,
+              boxShadow: "0 2px 12px #3939a155",
+              fontSize: isMobile ? 22 : 32,
+              padding: 0,
+              width: isMobile ? 38 : 54,
+              height: isMobile ? 38 : 54,
+              minWidth: isMobile ? 38 : 54,
+              minHeight: isMobile ? 38 : 54,
+              maxWidth: isMobile ? 38 : 54,
+              maxHeight: isMobile ? 38 : 54,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              fontSize: 15,
-              padding: 0,
             }}
+            title={"Anterior"}
+            aria-label="Anterior"
           >
-            <span
-              style={{
-                width: "100%",
-                textAlign: "center",
-                fontWeight: 700,
-                letterSpacing: 0.2,
-                display: "inline-block",
-              }}
+            <svg
+              width={isMobile ? 18 : 28}
+              height={isMobile ? 18 : 28}
+              viewBox="0 0 28 28"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
             >
-              {isRotating ? "Rotação ON" : "Rotação OFF"}
-            </span>
+              <circle
+                cx="14"
+                cy="14"
+                r="13"
+                stroke="#646cff"
+                strokeWidth="2"
+                fill="#23234a"
+              />
+              <polyline
+                points="17,8 11,14 17,20"
+                fill="none"
+                stroke="#646cff"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
           </button>
+          <button
+            onClick={goNext}
+            style={{
+              ...navBtnStyle,
+              boxShadow: "0 2px 12px #3939a155",
+              fontSize: isMobile ? 22 : 32,
+              padding: 0,
+              width: isMobile ? 38 : 54,
+              height: isMobile ? 38 : 54,
+              minWidth: isMobile ? 38 : 54,
+              minHeight: isMobile ? 38 : 54,
+              maxWidth: isMobile ? 38 : 54,
+              maxHeight: isMobile ? 38 : 54,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+            title={"Próximo"}
+            aria-label="Próximo"
+          >
+            <svg
+              width={isMobile ? 18 : 28}
+              height={isMobile ? 18 : 28}
+              viewBox="0 0 28 28"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle
+                cx="14"
+                cy="14"
+                r="13"
+                stroke="#646cff"
+                strokeWidth="2"
+                fill="#23234a"
+              />
+              <polyline
+                points="11,8 17,14 11,20"
+                fill="none"
+                stroke="#646cff"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </button>
+        </div>
+        {/* Botões wireframe e rotação juntos, compactos no mobile */}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: isMobile ? 8 : 16,
+            margin: isMobile ? "4px 0 0 0" : "0 0 0 0",
+          }}
+        >
           <button
             onClick={() => setShowWireframe((v) => !v)}
             style={{
@@ -478,74 +410,99 @@ export default function ShowModels() {
               fontWeight: 700,
               letterSpacing: 0.2,
               transition: "all 0.2s cubic-bezier(.4,0,.2,1)",
-              minWidth: 160,
-              maxWidth: 160,
-              minHeight: 44,
-              maxHeight: 44,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: 15,
+              minWidth: isMobile ? 80 : 160,
+              maxWidth: isMobile ? 80 : 160,
+              minHeight: isMobile ? 32 : 44,
+              maxHeight: isMobile ? 32 : 44,
+              fontSize: isMobile ? 12 : 15,
               padding: 0,
+              alignSelf: "center",
             }}
           >
-            <span
-              style={{
-                width: "100%",
-                textAlign: "center",
-                fontWeight: 700,
-                letterSpacing: 0.2,
-                display: "inline-block",
-              }}
-            >
-              {showWireframe ? "Wireframe ON" : "Wireframe OFF"}
-            </span>
+            {showWireframe ? "Wireframe ON" : "Wireframe OFF"}
+          </button>
+          <button
+            onClick={() => setIsRotating((v) => !v)}
+            style={{
+              ...ctrlBtnStyle,
+              background: isRotating
+                ? "linear-gradient(90deg,#22c55e 60%,#4ade80 100%)"
+                : "linear-gradient(90deg,#ef4444 60%,#f87171 100%)",
+              boxShadow: isRotating
+                ? "0 2px 12px #22c55e55"
+                : "0 2px 12px #ef444455",
+              border: isRotating
+                ? "1.5px solid #22c55e"
+                : "1.5px solid #ef4444",
+              color: "#fff",
+              fontWeight: 700,
+              letterSpacing: 0.2,
+              transition: "all 0.2s cubic-bezier(.4,0,.2,1)",
+              minWidth: isMobile ? 80 : 160,
+              maxWidth: isMobile ? 80 : 160,
+              minHeight: isMobile ? 32 : 44,
+              maxHeight: isMobile ? 32 : 44,
+              fontSize: isMobile ? 12 : 15,
+              padding: 0,
+              alignSelf: "center",
+            }}
+          >
+            {isRotating ? "Rotação ON" : "Rotação OFF"}
           </button>
         </div>
-        <div style={{ minWidth: 200, maxWidth: 260, textAlign: "center" }}>
-          <label
-            style={{
-              color: "#aab3ff",
-              fontSize: 13,
-              fontWeight: 600,
-              letterSpacing: 0.2,
-            }}
-          >
-            Velocidade de Rotação
-          </label>
-          <input
-            type="range"
-            min="0"
-            max="0.02"
-            step="0.001"
-            value={rotationSpeed}
-            onChange={(e) => setRotationSpeed(parseFloat(e.target.value))}
-            style={{
-              width: "100%",
-              marginTop: 6,
-              accentColor: "#646cff",
-              height: 4,
-              borderRadius: 2,
-              background: "#23234a",
-            }}
-          />
+        {/* Controles desktop extras */}
+        {!isMobile && (
           <div
             style={{
-              color: "#aab3ff",
-              fontSize: 12,
+              minWidth: 200,
+              maxWidth: 260,
               textAlign: "center",
-              minWidth: 140,
-              fontWeight: 500,
-              textShadow: "0 1px 4px #0007",
-              marginTop: 10,
+              marginTop: 24,
             }}
           >
-                    Navegue, gire, aproxime e afaste com o mouse ou toque.
-                  </div>
-                </div>
-              </div>
+            <label
+              style={{
+                color: "#aab3ff",
+                fontSize: 13,
+                fontWeight: 600,
+                letterSpacing: 0.2,
+              }}
+            >
+              Velocidade de Rotação
+            </label>
+            <input
+              type="range"
+              min="0"
+              max="0.02"
+              step="0.001"
+              value={rotationSpeed}
+              onChange={(e) => setRotationSpeed(parseFloat(e.target.value))}
+              style={{
+                width: "100%",
+                marginTop: 6,
+                accentColor: "#646cff",
+                height: 4,
+                borderRadius: 2,
+                background: "#23234a",
+              }}
+            />
+            <div
+              style={{
+                color: "#aab3ff",
+                fontSize: 12,
+                textAlign: "center",
+                minWidth: 140,
+                fontWeight: 500,
+                textShadow: "0 1px 4px #0007",
+                marginTop: 10,
+              }}
+            >
+              Navegue, gire, aproxime e afaste com o mouse ou toque.
             </div>
-          );
-        }
-
-
+          </div>
+        )}
+        </div>
+      </div>
+    </div>
+  );
+}
