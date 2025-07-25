@@ -251,9 +251,12 @@ export default function ShowModels() {
           <div
             style={{
               display: "flex",
-              gap: 24,
+              flexDirection: "row",
               alignItems: "center",
               justifyContent: "center",
+              gap: 32,
+              width: "100%",
+              margin: "0 auto",
             }}
           >
             <button
@@ -265,6 +268,13 @@ export default function ShowModels() {
                 padding: 0,
                 width: 54,
                 height: 54,
+                minWidth: 54,
+                minHeight: 54,
+                maxWidth: 54,
+                maxHeight: 54,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
               }}
               title={"Anterior"}
               aria-label="Anterior"
@@ -303,6 +313,13 @@ export default function ShowModels() {
                 padding: 0,
                 width: 54,
                 height: 54,
+                minWidth: 54,
+                minHeight: 54,
+                maxWidth: 54,
+                maxHeight: 54,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
               }}
               title={"Próximo"}
               aria-label="Próximo"
