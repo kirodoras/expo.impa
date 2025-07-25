@@ -222,7 +222,7 @@ export default function ShowModels() {
           boxShadow: "0 -8px 32px #000b",
           borderTop: "1.5px solid #3939a1cc",
           borderRadius: "24px 24px 0 0",
-          padding: isMobile ? "10px 4px 12px 4px" : "36px 0 44px 0",
+          padding: isMobile ? "6px 2px 8px 2px" : "18px 0 18px 0",
           display: "flex",
           flexDirection: isMobile ? "column" : "row",
           alignItems: isMobile ? "center" : "stretch",
@@ -280,108 +280,161 @@ export default function ShowModels() {
           </div>
         </div>
         {/* Navegação */}
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: isMobile ? 10 : 32,
-            margin: isMobile ? "4px 0" : "0 auto",
-            width: isMobile ? undefined : "100%",
-          }}
-        >
-          <button
-            onClick={goPrev}
+        {isMobile ? (
+          <div
             style={{
-              ...navBtnStyle,
-              boxShadow: "0 2px 12px #3939a155",
-              fontSize: isMobile ? 22 : 32,
-              padding: 0,
-              width: isMobile ? 38 : 54,
-              height: isMobile ? 38 : 54,
-              minWidth: isMobile ? 38 : 54,
-              minHeight: isMobile ? 38 : 54,
-              maxWidth: isMobile ? 38 : 54,
-              maxHeight: isMobile ? 38 : 54,
               display: "flex",
+              flexDirection: "row",
               alignItems: "center",
               justifyContent: "center",
+              gap: 10,
+              margin: "4px 0",
             }}
-            title={"Anterior"}
-            aria-label="Anterior"
           >
-            <svg
-              width={isMobile ? 18 : 28}
-              height={isMobile ? 18 : 28}
-              viewBox="0 0 28 28"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
+            <button
+              onClick={goPrev}
+              style={{
+                ...navBtnStyle,
+                boxShadow: "0 2px 12px #3939a155",
+                fontSize: 22,
+                padding: 0,
+                width: 38,
+                height: 38,
+                minWidth: 38,
+                minHeight: 38,
+                maxWidth: 38,
+                maxHeight: 38,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+              title={"Anterior"}
+              aria-label="Anterior"
             >
-              <circle
-                cx="14"
-                cy="14"
-                r="13"
-                stroke="#646cff"
-                strokeWidth="2"
-                fill="#23234a"
-              />
-              <polyline
-                points="17,8 11,14 17,20"
+              <svg
+                width={18}
+                height={18}
+                viewBox="0 0 28 28"
                 fill="none"
-                stroke="#646cff"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
-          <button
-            onClick={goNext}
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle
+                  cx="14"
+                  cy="14"
+                  r="13"
+                  stroke="#646cff"
+                  strokeWidth="2"
+                  fill="#23234a"
+                />
+                <polyline
+                  points="17,8 11,14 17,20"
+                  fill="none"
+                  stroke="#646cff"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
+            <button
+              onClick={goNext}
+              style={{
+                ...navBtnStyle,
+                boxShadow: "0 2px 12px #3939a155",
+                fontSize: 22,
+                padding: 0,
+                width: 38,
+                height: 38,
+                minWidth: 38,
+                minHeight: 38,
+                maxWidth: 38,
+                maxHeight: 38,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+              title={"Próximo"}
+              aria-label="Próximo"
+            >
+              <svg
+                width={18}
+                height={18}
+                viewBox="0 0 28 28"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle
+                  cx="14"
+                  cy="14"
+                  r="13"
+                  stroke="#646cff"
+                  strokeWidth="2"
+                  fill="#23234a"
+                />
+                <polyline
+                  points="11,8 17,14 11,20"
+                  fill="none"
+                  stroke="#646cff"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
+          </div>
+        ) : (
+          <div
             style={{
-              ...navBtnStyle,
-              boxShadow: "0 2px 12px #3939a155",
-              fontSize: isMobile ? 22 : 32,
-              padding: 0,
-              width: isMobile ? 38 : 54,
-              height: isMobile ? 38 : 54,
-              minWidth: isMobile ? 38 : 54,
-              minHeight: isMobile ? 38 : 54,
-              maxWidth: isMobile ? 38 : 54,
-              maxHeight: isMobile ? 38 : 54,
-              display: "flex",
-              alignItems: "center",
+              display: "grid",
+              gridTemplateColumns: "repeat(2, minmax(110px, 1fr))",
+              gap: 8,
+              margin: "0 auto",
+              width: "max-content",
               justifyContent: "center",
+              alignItems: "center",
             }}
-            title={"Próximo"}
-            aria-label="Próximo"
           >
-            <svg
-              width={isMobile ? 18 : 28}
-              height={isMobile ? 18 : 28}
-              viewBox="0 0 28 28"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <circle
-                cx="14"
-                cy="14"
-                r="13"
-                stroke="#646cff"
-                strokeWidth="2"
-                fill="#23234a"
-              />
-              <polyline
-                points="11,8 17,14 11,20"
-                fill="none"
-                stroke="#646cff"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
-        </div>
+            {modelTitles.map((title, idx) => (
+              <button
+                key={title}
+                onClick={() => setCurrentIndex(idx)}
+                style={{
+                  ...navBtnStyle,
+                  fontSize: 14,
+                  padding: "6px 8px",
+                  minWidth: 110,
+                  maxWidth: 140,
+                  minHeight: 36,
+                  maxHeight: 36,
+                  border: idx === currentIndex ? "2.5px solid #aab3ff" : navBtnStyle.border,
+                  color: idx === currentIndex ? "#fff" : navBtnStyle.color,
+                  background: idx === currentIndex
+                    ? "linear-gradient(90deg,#3939a1 60%,#646cff 100%)"
+                    : navBtnStyle.background,
+                  boxShadow: idx === currentIndex
+                    ? "0 2px 16px #646cff55"
+                    : navBtnStyle.boxShadow,
+                  fontWeight: idx === currentIndex ? 800 : 700,
+                  letterSpacing: 0.2,
+                  transition: "all 0.2s cubic-bezier(.4,0,.2,1)",
+                  outline: idx === currentIndex ? "2px solid #aab3ff" : undefined,
+                  cursor: idx === currentIndex ? "default" : "pointer",
+                  opacity: idx === currentIndex ? 1 : 0.85,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  textAlign: "center",
+                  whiteSpace: "nowrap",
+                }}
+                disabled={idx === currentIndex}
+                aria-label={title}
+                title={title}
+              >
+                {title}
+              </button>
+            ))}
+          </div>
+        )}
         {/* Botões wireframe e rotação juntos, compactos no mobile */}
         <div
           style={{
