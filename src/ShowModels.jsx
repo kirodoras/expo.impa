@@ -20,6 +20,28 @@ const modelTitles = [
   "Vander",
 ];
 
+const navBtnStyle = {
+  background: "linear-gradient(90deg,#23234a 60%,#3939a1 100%)",
+  border: "1.5px solid #646cff",
+  borderRadius: 16,
+  color: "#646cff",
+  cursor: "pointer",
+  outline: "none",
+  transition: "all 0.2s cubic-bezier(.4,0,.2,1)",
+  fontWeight: 700,
+  userSelect: "none",
+};
+
+const ctrlBtnStyle = {
+  borderRadius: 16,
+  border: "1.5px solid #646cff",
+  cursor: "pointer",
+  outline: "none",
+  fontWeight: 700,
+  userSelect: "none",
+  transition: "all 0.2s cubic-bezier(.4,0,.2,1)",
+};
+
 export default function ShowModels() {
   const mountRef = useRef();
   const meshRef = useRef();
@@ -456,16 +478,25 @@ export default function ShowModels() {
               fontWeight: 700,
               letterSpacing: 0.2,
               transition: "all 0.2s cubic-bezier(.4,0,.2,1)",
-              minWidth: 140,
+              minWidth: 160,
+              maxWidth: 160,
               minHeight: 44,
+              maxHeight: 44,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               fontSize: 15,
+              padding: 0,
             }}
           >
             <span
-              style={{ marginLeft: 8, fontWeight: 700, letterSpacing: 0.2 }}
+              style={{
+                width: "100%",
+                textAlign: "center",
+                fontWeight: 700,
+                letterSpacing: 0.2,
+                display: "inline-block",
+              }}
             >
               {showWireframe ? "Wireframe ON" : "Wireframe OFF"}
             </span>
@@ -509,44 +540,12 @@ export default function ShowModels() {
               marginTop: 10,
             }}
           >
-            Navegue, gire, aproxime e afaste com o mouse ou toque.
-          </div>
-        </div>
+                    Navegue, gire, aproxime e afaste com o mouse ou toque.
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+        }
 
-      </div>
-    </div>
-  );
-}
 
-const navBtnStyle = {
-  background: "linear-gradient(135deg,#3939a1 60%,#646cff 100%)",
-  color: "#fff",
-  border: "none",
-  borderRadius: "50%",
-  width: 54,
-  height: 54,
-  fontSize: 28,
-  cursor: "pointer",
-  boxShadow: "0 2px 12px #3939a155",
-  transition: "all 0.2s cubic-bezier(.4,0,.2,1)",
-  outline: "none",
-  borderBottom: "2.5px solid #646cff",
-  borderTop: "1.5px solid #3939a1",
-  fontWeight: 700,
-  letterSpacing: 0.2,
-};
-
-const ctrlBtnStyle = {
-  color: "#fff",
-  borderRadius: 10,
-  padding: "12px 22px",
-  fontSize: 15,
-  fontWeight: 700,
-  cursor: "pointer",
-  boxShadow: "0 2px 12px #3939a155",
-  transition: "all 0.2s cubic-bezier(.4,0,.2,1)",
-  outline: "none",
-  border: "1.5px solid #646cff",
-  margin: 0,
-  letterSpacing: 0.2,
-};
