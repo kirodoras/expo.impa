@@ -140,6 +140,8 @@ export default function ShowModels() {
       );
     }
 
+    loadModel(availableModels[currentIndex]);
+
     function animate() {
       animationId = requestAnimationFrame(animate);
       if (meshRef.current && isRotating) {
