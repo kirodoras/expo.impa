@@ -24,7 +24,7 @@ function App() {
   const [uploadProgress, setUploadProgress] = useState(null);
 
   const availableModels = [
-    "Cilindro x²+y²=1.ply",
+    "Cilindro_x2_y2_1.ply",
     "Cilindro xy=1.ply",
     "Cúbica.ply",
     "Curva algébrica de gênero 2.ply",
@@ -87,7 +87,7 @@ function App() {
     const loadInitialModel = () => {
       setShowWireframe(true); // Garante que o estado também fique ON
       const loader = new PLYLoader();
-      loader.load("/objects/Cilindro x²+y²=1.ply", (geometry) => {
+      loader.load("/objects/Cilindro_x2_y2_1.ply", (geometry) => {
         geometry.computeVertexNormals();
         const hasColors = geometry.attributes.color !== undefined;
 
@@ -113,7 +113,7 @@ function App() {
     };
 
     loadInitialModel();
-    setCurrentModel("Cilindro x²+y²=1.ply");
+    setCurrentModel("Cilindro_x2_y2_1.ply");
 
     return () => {
       if (currentMount && renderer.domElement) {
@@ -440,8 +440,8 @@ function App() {
         (file) => file.name === currentModel
       );
       if (isCurrentModelUploaded) {
-        loadPLYFile("/objects/Cilindro x²+y²=1.ply");
-        setCurrentModel("Cilindro x²+y²=1.ply");
+        loadPLYFile("/objects/Cilindro_x2_y2_1.ply");
+        setCurrentModel("Cilindro_x2_y2_1.ply");
       }
     }
   };
@@ -455,8 +455,8 @@ function App() {
     setUploadedFiles((prev) => prev.filter((f) => f.name !== fileName));
 
     if (currentModel === fileName) {
-      loadPLYFile("/objects/Cilindro x²+y²=1.ply");
-      setCurrentModel("Cilindro x²+y²=1.ply");
+      loadPLYFile("/objects/Cilindro_x2_y2_1.ply");
+      setCurrentModel("Cilindro_x2_y2_1.ply");
     }
   };
 

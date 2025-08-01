@@ -3,7 +3,7 @@ import * as THREE from "three";
 import { PLYLoader } from "three/examples/jsm/loaders/PLYLoader";
 
  const availableModels = [
-   "Cilindro x²+y²=1.ply",
+   "Cilindro_x2_y2_1.ply",
    "Cilindro xy=1.ply",
    "Cúbica.ply",
    "Curva algébrica de gênero 2.ply",
