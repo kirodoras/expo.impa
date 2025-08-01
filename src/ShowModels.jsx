@@ -2,14 +2,14 @@ import { useRef, useEffect, useState } from "react";
 import * as THREE from "three";
 import { PLYLoader } from "three/examples/jsm/loaders/PLYLoader";
 
- const availableModels = [
-   "Cilindro_x2_y2_1.ply",
-   "Cilindro xy=1.ply",
-   "Cúbica.ply",
-   "Curva algébrica de gênero 2.ply",
-   "Folheação de grau 2.ply",
-   "Folheação de Vander Pol.ply",
- ];
+const availableModels = [
+  "Cilindro_x2_y2_1.ply",
+  "Cilindro xy=1.ply",
+  "Cúbica.ply",
+  "Curva algébrica de gênero 2.ply",
+  "Folheação de grau 2.ply",
+  "Folheação de Vander Pol.ply",
+];
 
 const modelTitles = [
   "Cilindro x²+y²=1",
@@ -248,316 +248,337 @@ export default function ShowModels() {
             margin: isMobile ? undefined : "0 auto",
           }}
         >
-        {/* Nome e arquivo */}
-        <div
-          style={{
-            minWidth: isMobile ? 0 : 200,
-            textAlign: "center",
-            marginBottom: isMobile ? 2 : 0,
-            padding: isMobile ? 0 : undefined,
-          }}
-        >
+          {isMobile ? (
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 10,
+                margin: "4px 0",
+              }}
+            >
+              <button
+                onClick={goPrev}
+                style={{
+                  ...navBtnStyle,
+                  boxShadow: "0 2px 12px #3939a155",
+                  fontSize: 22,
+                  padding: 0,
+                  width: 38,
+                  height: 38,
+                  minWidth: 38,
+                  minHeight: 38,
+                  maxWidth: 38,
+                  maxHeight: 38,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+                title={"Anterior"}
+                aria-label="Anterior"
+              >
+                <svg
+                  width={18}
+                  height={18}
+                  viewBox="0 0 28 28"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle
+                    cx="14"
+                    cy="14"
+                    r="13"
+                    stroke="#646cff"
+                    strokeWidth="2"
+                    fill="#23234a"
+                  />
+                  <polyline
+                    points="17,8 11,14 17,20"
+                    fill="none"
+                    stroke="#646cff"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+            </div>
+          ) : (
+            <></>
+          )}
+          {/* Nome e arquivo */}
           <div
             style={{
-              color: "#fff",
-              fontWeight: 700,
-              fontSize: isMobile ? 15 : 18,
-              letterSpacing: 0.5,
-              marginBottom: isMobile ? 0 : 2,
-              textShadow: "0 2px 8px #0007",
-              lineHeight: 1.1,
+              minWidth: isMobile ? 0 : 200,
+              textAlign: "center",
+              marginBottom: isMobile ? 2 : 0,
+              padding: isMobile ? 0 : undefined,
             }}
           >
-            {modelTitles[currentIndex]}
+            <div
+              style={{
+                color: "#fff",
+                fontWeight: 700,
+                fontSize: isMobile ? 15 : 18,
+                letterSpacing: 0.5,
+                marginBottom: isMobile ? 0 : 2,
+                textShadow: "0 2px 8px #0007",
+                lineHeight: 1.1,
+              }}
+            >
+              {modelTitles[currentIndex]}
+            </div>
+            <div
+              style={{
+                color: "#aab3ff",
+                fontSize: isMobile ? 11 : 13,
+                fontWeight: 500,
+                letterSpacing: 0.2,
+                marginTop: isMobile ? 0 : undefined,
+                lineHeight: 1.1,
+              }}
+            >
+              {availableModels[currentIndex]}
+            </div>
           </div>
-          <div
-            style={{
-              color: "#aab3ff",
-              fontSize: isMobile ? 11 : 13,
-              fontWeight: 500,
-              letterSpacing: 0.2,
-              marginTop: isMobile ? 0 : undefined,
-              lineHeight: 1.1,
-            }}
-          >
-            {availableModels[currentIndex]}
-          </div>
-        </div>
-        {/* Navegação */}
-        {isMobile ? (
+          {/* Navegação */}
+          {isMobile ? (
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 10,
+                margin: "4px 0",
+              }}
+            >
+              <button
+                onClick={goNext}
+                style={{
+                  ...navBtnStyle,
+                  boxShadow: "0 2px 12px #3939a155",
+                  fontSize: 22,
+                  padding: 0,
+                  width: 38,
+                  height: 38,
+                  minWidth: 38,
+                  minHeight: 38,
+                  maxWidth: 38,
+                  maxHeight: 38,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+                title={"Próximo"}
+                aria-label="Próximo"
+              >
+                <svg
+                  width={18}
+                  height={18}
+                  viewBox="0 0 28 28"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle
+                    cx="14"
+                    cy="14"
+                    r="13"
+                    stroke="#646cff"
+                    strokeWidth="2"
+                    fill="#23234a"
+                  />
+                  <polyline
+                    points="11,8 17,14 11,20"
+                    fill="none"
+                    stroke="#646cff"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+            </div>
+          ) : (
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(2, 1fr)",
+                gap: 8,
+                margin: "0 auto",
+                width: "max-content",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              {modelTitles.map((title, idx) => (
+                <button
+                  key={title}
+                  onClick={() => setCurrentIndex(idx)}
+                  style={{
+                    ...navBtnStyle,
+                    fontSize: 14,
+                    padding: "6px 8px",
+                    minWidth: 180,
+                    maxWidth: 200,
+                    minHeight: 36,
+                    maxHeight: 36,
+                    border:
+                      idx === currentIndex
+                        ? "2.5px solid #aab3ff"
+                        : navBtnStyle.border,
+                    color: idx === currentIndex ? "#fff" : navBtnStyle.color,
+                    background:
+                      idx === currentIndex
+                        ? "linear-gradient(90deg,#3939a1 60%,#646cff 100%)"
+                        : navBtnStyle.background,
+                    boxShadow:
+                      idx === currentIndex
+                        ? "0 2px 16px #646cff55"
+                        : navBtnStyle.boxShadow,
+                    fontWeight: idx === currentIndex ? 800 : 700,
+                    letterSpacing: 0.2,
+                    transition: "all 0.2s cubic-bezier(.4,0,.2,1)",
+                    outline:
+                      idx === currentIndex ? "2px solid #aab3ff" : undefined,
+                    cursor: idx === currentIndex ? "default" : "pointer",
+                    opacity: idx === currentIndex ? 1 : 0.85,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    textAlign: "center",
+                    whiteSpace: "nowrap",
+                  }}
+                  disabled={idx === currentIndex}
+                  aria-label={title}
+                  title={title}
+                >
+                  {title}
+                </button>
+              ))}
+            </div>
+          )}
+          {/* Botões wireframe e rotação juntos, compactos no mobile */}
           <div
             style={{
               display: "flex",
               flexDirection: "row",
               alignItems: "center",
               justifyContent: "center",
-              gap: 10,
-              margin: "4px 0",
+              gap: isMobile ? 8 : 16,
+              margin: isMobile ? "4px 0 0 0" : "0 0 0 0",
             }}
           >
             <button
-              onClick={goPrev}
+              onClick={() => setShowWireframe((v) => !v)}
               style={{
-                ...navBtnStyle,
-                boxShadow: "0 2px 12px #3939a155",
-                fontSize: 22,
-                padding: 0,
-                width: 38,
-                height: 38,
-                minWidth: 38,
-                minHeight: 38,
-                maxWidth: 38,
-                maxHeight: 38,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-              title={"Anterior"}
-              aria-label="Anterior"
-            >
-              <svg
-                width={18}
-                height={18}
-                viewBox="0 0 28 28"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <circle
-                  cx="14"
-                  cy="14"
-                  r="13"
-                  stroke="#646cff"
-                  strokeWidth="2"
-                  fill="#23234a"
-                />
-                <polyline
-                  points="17,8 11,14 17,20"
-                  fill="none"
-                  stroke="#646cff"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>
-            <button
-              onClick={goNext}
-              style={{
-                ...navBtnStyle,
-                boxShadow: "0 2px 12px #3939a155",
-                fontSize: 22,
-                padding: 0,
-                width: 38,
-                height: 38,
-                minWidth: 38,
-                minHeight: 38,
-                maxWidth: 38,
-                maxHeight: 38,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-              title={"Próximo"}
-              aria-label="Próximo"
-            >
-              <svg
-                width={18}
-                height={18}
-                viewBox="0 0 28 28"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <circle
-                  cx="14"
-                  cy="14"
-                  r="13"
-                  stroke="#646cff"
-                  strokeWidth="2"
-                  fill="#23234a"
-                />
-                <polyline
-                  points="11,8 17,14 11,20"
-                  fill="none"
-                  stroke="#646cff"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>
-          </div>
-        ) : (
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(2, 1fr)",
-              gap: 8,
-              margin: "0 auto",
-              width: "max-content",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            {modelTitles.map((title, idx) => (
-              <button
-                key={title}
-                onClick={() => setCurrentIndex(idx)}
-                style={{
-                  ...navBtnStyle,
-                  fontSize: 14,
-                  padding: "6px 8px",
-                  minWidth: 180,
-                  maxWidth: 200,
-                  minHeight: 36,
-                  maxHeight: 36,
-                  border: idx === currentIndex ? "2.5px solid #aab3ff" : navBtnStyle.border,
-                  color: idx === currentIndex ? "#fff" : navBtnStyle.color,
-                  background: idx === currentIndex
-                    ? "linear-gradient(90deg,#3939a1 60%,#646cff 100%)"
-                    : navBtnStyle.background,
-                  boxShadow: idx === currentIndex
-                    ? "0 2px 16px #646cff55"
-                    : navBtnStyle.boxShadow,
-                  fontWeight: idx === currentIndex ? 800 : 700,
-                  letterSpacing: 0.2,
-                  transition: "all 0.2s cubic-bezier(.4,0,.2,1)",
-                  outline: idx === currentIndex ? "2px solid #aab3ff" : undefined,
-                  cursor: idx === currentIndex ? "default" : "pointer",
-                  opacity: idx === currentIndex ? 1 : 0.85,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  textAlign: "center",
-                  whiteSpace: "nowrap",
-                }}
-                disabled={idx === currentIndex}
-                aria-label={title}
-                title={title}
-              >
-                {title}
-              </button>
-            ))}
-          </div>
-        )}
-        {/* Botões wireframe e rotação juntos, compactos no mobile */}
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: isMobile ? 8 : 16,
-            margin: isMobile ? "4px 0 0 0" : "0 0 0 0",
-          }}
-        >
-          <button
-            onClick={() => setShowWireframe((v) => !v)}
-            style={{
-              ...ctrlBtnStyle,
-              background: showWireframe
-                ? "linear-gradient(90deg,#646cff 60%,#aab3ff 100%)"
-                : "linear-gradient(90deg,#444 60%,#888 100%)",
-              boxShadow: showWireframe
-                ? "0 2px 12px #646cff55"
-                : "0 2px 12px #4445",
-              border: showWireframe
-                ? "1.5px solid #646cff"
-                : "1.5px solid #444",
-              color: showWireframe ? "#fff" : "#eee",
-              fontWeight: 700,
-              letterSpacing: 0.2,
-              transition: "all 0.2s cubic-bezier(.4,0,.2,1)",
-              minWidth: isMobile ? 80 : 120,
-              maxWidth: isMobile ? 80 : 120,
-              minHeight: isMobile ? 32 : 40,
-              maxHeight: isMobile ? 32 : 40,
-              fontSize: isMobile ? 12 : 15,
-              padding: 0,
-              alignSelf: "center",
-            }}
-          >
-            {showWireframe ? "Wireframe ON" : "Wireframe OFF"}
-          </button>
-          <button
-            onClick={() => setIsRotating((v) => !v)}
-            style={{
-              ...ctrlBtnStyle,
-              background: isRotating
-                ? "linear-gradient(90deg,#22c55e 60%,#4ade80 100%)"
-                : "linear-gradient(90deg,#ef4444 60%,#f87171 100%)",
-              boxShadow: isRotating
-                ? "0 2px 12px #22c55e55"
-                : "0 2px 12px #ef444455",
-              border: isRotating
-                ? "1.5px solid #22c55e"
-                : "1.5px solid #ef4444",
-              color: "#fff",
-              fontWeight: 700,
-              letterSpacing: 0.2,
-              transition: "all 0.2s cubic-bezier(.4,0,.2,1)",
-              minWidth: isMobile ? 80 : 120,
-              maxWidth: isMobile ? 80 : 120,
-              minHeight: isMobile ? 32 : 40,
-              maxHeight: isMobile ? 32 : 40,
-              fontSize: isMobile ? 12 : 15,
-              padding: 0,
-              alignSelf: "center",
-            }}
-          >
-            {isRotating ? "Rotação ON" : "Rotação OFF"}
-          </button>
-        </div>
-        {/* Controles desktop extras */}
-        {!isMobile && (
-          <div
-            style={{
-              minWidth: 200,
-              maxWidth: 260,
-              textAlign: "center",
-              marginTop: 24,
-            }}
-          >
-            <label
-              style={{
-                color: "#aab3ff",
-                fontSize: 13,
-                fontWeight: 600,
+                ...ctrlBtnStyle,
+                background: showWireframe
+                  ? "linear-gradient(90deg,#646cff 60%,#aab3ff 100%)"
+                  : "linear-gradient(90deg,#444 60%,#888 100%)",
+                boxShadow: showWireframe
+                  ? "0 2px 12px #646cff55"
+                  : "0 2px 12px #4445",
+                border: showWireframe
+                  ? "1.5px solid #646cff"
+                  : "1.5px solid #444",
+                color: showWireframe ? "#fff" : "#eee",
+                fontWeight: 700,
                 letterSpacing: 0.2,
+                transition: "all 0.2s cubic-bezier(.4,0,.2,1)",
+                minWidth: isMobile ? 80 : 120,
+                maxWidth: isMobile ? 80 : 120,
+                minHeight: isMobile ? 32 : 40,
+                maxHeight: isMobile ? 32 : 40,
+                fontSize: isMobile ? 12 : 15,
+                padding: 0,
+                alignSelf: "center",
               }}
             >
-              Velocidade de Rotação
-            </label>
-            <input
-              type="range"
-              min="0"
-              max="0.02"
-              step="0.001"
-              value={rotationSpeed}
-              onChange={(e) => setRotationSpeed(parseFloat(e.target.value))}
+              {showWireframe ? "Wireframe ON" : "Wireframe OFF"}
+            </button>
+            <button
+              onClick={() => setIsRotating((v) => !v)}
               style={{
-                width: "100%",
-                marginTop: 6,
-                accentColor: "#646cff",
-                height: 4,
-                borderRadius: 2,
-                background: "#23234a",
+                ...ctrlBtnStyle,
+                background: isRotating
+                  ? "linear-gradient(90deg,#22c55e 60%,#4ade80 100%)"
+                  : "linear-gradient(90deg,#ef4444 60%,#f87171 100%)",
+                boxShadow: isRotating
+                  ? "0 2px 12px #22c55e55"
+                  : "0 2px 12px #ef444455",
+                border: isRotating
+                  ? "1.5px solid #22c55e"
+                  : "1.5px solid #ef4444",
+                color: "#fff",
+                fontWeight: 700,
+                letterSpacing: 0.2,
+                transition: "all 0.2s cubic-bezier(.4,0,.2,1)",
+                minWidth: isMobile ? 80 : 120,
+                maxWidth: isMobile ? 80 : 120,
+                minHeight: isMobile ? 32 : 40,
+                maxHeight: isMobile ? 32 : 40,
+                fontSize: isMobile ? 12 : 15,
+                padding: 0,
+                alignSelf: "center",
               }}
-            />
+            >
+              {isRotating ? "Rotação ON" : "Rotação OFF"}
+            </button>
+          </div>
+          {/* Controles desktop extras */}
+          {!isMobile && (
             <div
               style={{
-                color: "#aab3ff",
-                fontSize: 12,
+                minWidth: 200,
+                maxWidth: 260,
                 textAlign: "center",
-                minWidth: 140,
-                fontWeight: 500,
-                textShadow: "0 1px 4px #0007",
-                marginTop: 10,
+                marginTop: 24,
               }}
             >
-              Navegue, gire, aproxime e afaste com o mouse ou toque.
+              <label
+                style={{
+                  color: "#aab3ff",
+                  fontSize: 13,
+                  fontWeight: 600,
+                  letterSpacing: 0.2,
+                }}
+              >
+                Velocidade de Rotação
+              </label>
+              <input
+                type="range"
+                min="0"
+                max="0.02"
+                step="0.001"
+                value={rotationSpeed}
+                onChange={(e) => setRotationSpeed(parseFloat(e.target.value))}
+                style={{
+                  width: "100%",
+                  marginTop: 6,
+                  accentColor: "#646cff",
+                  height: 4,
+                  borderRadius: 2,
+                  background: "#23234a",
+                }}
+              />
+              <div
+                style={{
+                  color: "#aab3ff",
+                  fontSize: 12,
+                  textAlign: "center",
+                  minWidth: 140,
+                  fontWeight: 500,
+                  textShadow: "0 1px 4px #0007",
+                  marginTop: 10,
+                }}
+              >
+                Navegue, gire, aproxime e afaste com o mouse ou toque.
+              </div>
             </div>
-          </div>
-        )}
+          )}
         </div>
       </div>
     </div>
