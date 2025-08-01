@@ -51,13 +51,17 @@ export default function ShowModels() {
   const [isRotating, setIsRotating] = useState(true);
   const [rotationSpeed, setRotationSpeed] = useState(0.005);
   const [isMobile, setIsMobile] = useState(false);
+  const [viewHeight, setViewHeight] = useState(window.innerHeight);
 
   // Responsividade
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    window.addEventListener("resize", checkMobile);
-    checkMobile();
-    return () => window.removeEventListener("resize", checkMobile);
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+      setViewHeight(window.innerHeight);
+    };
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   // Inicialização da cena
@@ -171,7 +175,7 @@ export default function ShowModels() {
       style={{
         position: "relative",
         width: "100vw",
-        height: "100vh",
+        height: viewHeight,
         overflow: "hidden",
         background: "#0f0f0f",
         fontFamily: "Segoe UI",
@@ -185,7 +189,7 @@ export default function ShowModels() {
           top: 0,
           left: 0,
           width: "100vw",
-          height: "100vh",
+          height: viewHeight,
           zIndex: 1,
           background: "#111",
         }}
