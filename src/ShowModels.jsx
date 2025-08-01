@@ -215,7 +215,7 @@ export default function ShowModels() {
       {/* HUD de controles na parte inferior, sobreposto */}
       <div
         style={{
-          position: "absolute",
+          position: "fixed",
           left: 0,
           bottom: 0,
           width: "100vw",
