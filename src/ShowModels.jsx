@@ -2,22 +2,22 @@ import { useRef, useEffect, useState } from "react";
 import * as THREE from "three";
 import { PLYLoader } from "three/examples/jsm/loaders/PLYLoader";
 
-const availableModels = [
-  "cilindro_hossein.ply",
-  "cilindro.ply",
-  "cubica_hossein.ply",
-  "gen2_hossein.ply",
-  "hossein1.ply",
-  "vander.ply",
-];
+ const availableModels = [
+   "Cilindro x²+y²=1.ply",
+   "Cilindro xy=1.ply",
+   "Cúbica.ply",
+   "Curva algébrica de gênero 2.ply",
+   "Folheação de grau 2.ply",
+   "Folheação de Vander Pol.ply",
+ ];
 
 const modelTitles = [
-  "Cilindro Hossein",
-  "Cilindro",
-  "Cúbica Hossein",
-  "Gen2 Hossein",
-  "Hossein 1",
-  "Vander",
+  "Cilindro x²+y²=1",
+  "Cilindro xy=1",
+  "Cúbica",
+  "Curva algébrica de gênero 2",
+  "Folheação de grau 2",
+  "Folheação de Vander Pol",
 ];
 
 const navBtnStyle = {
@@ -224,7 +224,7 @@ export default function ShowModels() {
           borderRadius: "24px 24px 0 0",
           padding: isMobile ? "6px 2px 8px 2px" : "18px 0 18px 0",
           display: "flex",
-          flexDirection: isMobile ? "column" : "row",
+          flexDirection: "row",
           alignItems: isMobile ? "center" : "stretch",
           justifyContent: "center",
           gap: isMobile ? 8 : 0,
@@ -386,7 +386,7 @@ export default function ShowModels() {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(2, minmax(110px, 1fr))",
+              gridTemplateColumns: "repeat(2, 1fr)",
               gap: 8,
               margin: "0 auto",
               width: "max-content",
@@ -402,8 +402,8 @@ export default function ShowModels() {
                   ...navBtnStyle,
                   fontSize: 14,
                   padding: "6px 8px",
-                  minWidth: 110,
-                  maxWidth: 140,
+                  minWidth: 180,
+                  maxWidth: 200,
                   minHeight: 36,
                   maxHeight: 36,
                   border: idx === currentIndex ? "2.5px solid #aab3ff" : navBtnStyle.border,
@@ -463,10 +463,10 @@ export default function ShowModels() {
               fontWeight: 700,
               letterSpacing: 0.2,
               transition: "all 0.2s cubic-bezier(.4,0,.2,1)",
-              minWidth: isMobile ? 80 : 160,
-              maxWidth: isMobile ? 80 : 160,
-              minHeight: isMobile ? 32 : 44,
-              maxHeight: isMobile ? 32 : 44,
+              minWidth: isMobile ? 80 : 120,
+              maxWidth: isMobile ? 80 : 120,
+              minHeight: isMobile ? 32 : 40,
+              maxHeight: isMobile ? 32 : 40,
               fontSize: isMobile ? 12 : 15,
               padding: 0,
               alignSelf: "center",
@@ -491,10 +491,10 @@ export default function ShowModels() {
               fontWeight: 700,
               letterSpacing: 0.2,
               transition: "all 0.2s cubic-bezier(.4,0,.2,1)",
-              minWidth: isMobile ? 80 : 160,
-              maxWidth: isMobile ? 80 : 160,
-              minHeight: isMobile ? 32 : 44,
-              maxHeight: isMobile ? 32 : 44,
+              minWidth: isMobile ? 80 : 120,
+              maxWidth: isMobile ? 80 : 120,
+              minHeight: isMobile ? 32 : 40,
+              maxHeight: isMobile ? 32 : 40,
               fontSize: isMobile ? 12 : 15,
               padding: 0,
               alignSelf: "center",

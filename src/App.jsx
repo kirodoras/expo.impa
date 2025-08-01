@@ -24,12 +24,12 @@ function App() {
   const [uploadProgress, setUploadProgress] = useState(null);
 
   const availableModels = [
-    "cilindro_hossein.ply",
-    "cilindro.ply",
-    "cubica_hossein.ply",
-    "gen2_hossein.ply",
-    "hossein1.ply",
-    "vander.ply",
+    "Cilindro x²+y²=1.ply",
+    "Cilindro xy=1.ply",
+    "Cúbica.ply",
+    "Curva algébrica de gênero 2.ply",
+    "Folheação de grau 2.ply",
+    "Folheação de Vander Pol.ply",
   ];
 
   // Inicialização da cena 3D
@@ -87,7 +87,7 @@ function App() {
     const loadInitialModel = () => {
       setShowWireframe(true); // Garante que o estado também fique ON
       const loader = new PLYLoader();
-      loader.load("/objects/cilindro_hossein.ply", (geometry) => {
+      loader.load("/objects/Cilindro x²+y²=1.ply", (geometry) => {
         geometry.computeVertexNormals();
         const hasColors = geometry.attributes.color !== undefined;
 
@@ -113,7 +113,7 @@ function App() {
     };
 
     loadInitialModel();
-    setCurrentModel("cilindro_hossein.ply");
+    setCurrentModel("Cilindro x²+y²=1.ply");
 
     return () => {
       if (currentMount && renderer.domElement) {
@@ -440,8 +440,8 @@ function App() {
         (file) => file.name === currentModel
       );
       if (isCurrentModelUploaded) {
-        loadPLYFile("/objects/cilindro_hossein.ply");
-        setCurrentModel("cilindro_hossein.ply");
+        loadPLYFile("/objects/Cilindro x²+y²=1.ply");
+        setCurrentModel("Cilindro x²+y²=1.ply");
       }
     }
   };
@@ -455,8 +455,8 @@ function App() {
     setUploadedFiles((prev) => prev.filter((f) => f.name !== fileName));
 
     if (currentModel === fileName) {
-      loadPLYFile("/objects/cilindro_hossein.ply");
-      setCurrentModel("cilindro_hossein.ply");
+      loadPLYFile("/objects/Cilindro x²+y²=1.ply");
+      setCurrentModel("Cilindro x²+y²=1.ply");
     }
   };
 
