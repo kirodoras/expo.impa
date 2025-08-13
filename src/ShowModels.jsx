@@ -469,7 +469,10 @@ export default function ShowModels() {
             )}
           </div>
 
-          <img src="/qrcode.png" alt="QR Code" className="qrcode-image" />
+          <div className="qrcode-wrapper">
+            <p className="qrcode-caption">Acesse no celular</p>
+            <img src="/qrcode.png" alt="QR Code" className="qrcode-image" />
+          </div>
         </div>
       </div>
     </div>
