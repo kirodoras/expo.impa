@@ -1,78 +1,44 @@
 import { useRef, useEffect, useState } from "react";
 import * as THREE from "three";
 import { PLYLoader } from "three/examples/jsm/loaders/PLYLoader";
-import ReactMarkdown from "react-markdown";
-import remarkMath from "remark-math";
-import rehypeKatex from "rehype-katex";
-import "katex/dist/katex.min.css";
 import "./App.css";
 import PropTypes from "prop-types";
 
 const models = [
   {
-    file: "Cilindro_x2_y2_1.ply",
-    title: "Cilindro x²+y²=1",
-    info: String.raw`
-### Cilindro x²+y²=1
-Esta é a superfície de um cilindro circular reto ao longo do eixo z.
-A equação que descreve esta superfície é:
-$$x^2 + y^2 = 1$$
-*Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus.*
-`,
+    file: "genero2.ply",
+    fileMD: "genero2.md",
+    title: "Curva algébrica de gênero 2",
   },
   {
-    file: "Cilindro xy=1.ply",
-    title: "Cilindro xy=1",
-    info: String.raw`
-### Cilindro Hiperbólico xy=1
-Esta superfície é um cilindro hiperbólico.
-A equação que a descreve é:
-$$xy = 1$$
-*Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus.*
-`,
+    file: "cubica_I.ply",
+    fileMD: "cubica_I.md",
+    title: "Cúbica I",
   },
   {
-    file: "Cúbica.ply",
-    title: "Cúbica",
-    info: String.raw`
-### Superfície Cúbica
-Uma superfície cúbica é definida por uma equação polinomial de grau 3.
-Um exemplo famoso é a Cúbica de Clebsch:
-$$x^3 + y^3 + z^3 + w^3 = (x+y+z+w)^3$$
-*Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus.*
-`,
+    file: "cubica_II.ply",
+    fileMD: "cubica_II.md",
+    title: "Cúbica II",
   },
   {
-    file: "Curva algébrica de gênero 2.ply",
-    title: "Curva Algébrica de Gênero 2",
-    info: String.raw`
-### Curva Algébrica de Gênero 2
-Esta é uma curva complexa que pode ser representada como uma superfície de Riemann.
-A equação para uma curva hiperelíptica de gênero 2 é da forma:
-$$y^2 = x(x-1)(x-2)(x-3)(x-4)$$
-*Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus.*
-`,
+    file: "cilindro_I.ply",
+    fileMD: "cilindro_I.md",
+    title: "Cilindro I",
   },
   {
-    file: "Folheação de grau 2.ply",
-    title: "Folheação de Grau 2",
-    info: String.raw`
-### Folheação de Grau 2
-Uma folheação divide uma variedade em subvariedades de dimensão inferior, chamadas folhas.
-Esta é uma folheação de grau 2 em $\mathbb{P}^2(\mathbb{C})$.
-*Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus.*
-`,
+    file: "cilindro_II.ply",
+    fileMD: "cilindro_II.md",
+    title: "Cilindro II",
   },
   {
-    file: "Folheação de Vander Pol.ply",
-    title: "Folheação de Van der Pol",
-    info: String.raw`
-### Folheação de Van der Pol
-Associada ao famoso oscilador de Van der Pol, um sistema dinâmico não linear.
-A equação do oscilador é:
-$$\frac{d^2x}{dt^2} - \mu(1-x^2)\frac{dx}{dt} + x = 0$$
-*Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus.*
-`,
+    file: "vander_pol.ply",
+    fileMD: "vander_pol.md",
+    title: "Folheação de Vander Pol",
+  },
+  {
+    file: "singularidade_hiperbolica.ply",
+    fileMD: "singularidade_hiperbolica.md",
+    title: "Singularidade hiperbólica",
   },
 ];
 
@@ -97,7 +63,7 @@ const ctrlBtnStyle = {
   userSelect: "none",
   transition: "all 0.2s cubic-bezier(.4,0,.2,1)",
 };
-const InfoPanel = ({ info, isOpen, onClose }) => {
+const InfoPanel = ({ isOpen, onClose }) => {
   useEffect(() => {
     if (isOpen) {
       const timer = setTimeout(() => {
@@ -114,15 +80,12 @@ const InfoPanel = ({ info, isOpen, onClose }) => {
       <button onClick={onClose} className="close-btn">
         &times;
       </button>
-      <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>
-        {info}
-      </ReactMarkdown>
+      {/* Visualização MARKDOWN + MATHJAX */}
     </div>
   );
 };
 
 InfoPanel.propTypes = {
-  info: PropTypes.string.isRequired,
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
 };
@@ -323,11 +286,7 @@ export default function ShowModels() {
         }}
       />
       {loading && <LoadingSpinner />}
-      <InfoPanel
-        isOpen={isInfoOpen}
-        onClose={() => setIsInfoOpen(false)}
-        info={models[currentIndex].info}
-      />
+      <InfoPanel isOpen={isInfoOpen} onClose={() => setIsInfoOpen(false)} />
       <AboutModal isOpen={isAboutOpen} onClose={() => setIsAboutOpen(false)} />
 
       <div
