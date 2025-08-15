@@ -209,3 +209,156 @@ button:active {
     font-size: 1rem;
   }
 }
+
+/* --- Loading Spinner --- */
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgba(15, 15, 15, 0.8);
+  backdrop-filter: blur(4px);
+  z-index: 10;
+  color: #646cff;
+  font-size: 1.5rem;
+}
+
+.spinner {
+  border: 4px solid rgba(255, 255, 255, 0.2);
+  border-left-color: #646cff;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+/* --- Info Panel --- */
+.info-panel {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  width: 350px;
+  max-height: calc(100vh - 4rem);
+  background: rgba(24, 24, 27, 0.7);
+  backdrop-filter: blur(16px) saturate(1.5);
+  -webkit-backdrop-filter: blur(16px) saturate(1.5);
+  border: 1.5px solid #3939a1cc;
+  border-radius: 16px;
+  padding: 1.5rem;
+  color: #eee;
+  z-index: 30;
+  overflow-y: auto;
+  animation: fadeIn 0.3s ease;
+}
+
+.info-panel h3 {
+  margin-top: 0;
+  color: #aab3ff;
+}
+
+.info-panel p {
+  line-height: 1.6;
+}
+
+.info-panel .katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 0.5rem;
+}
+
+/* --- Modal --- */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+  background: #18181b;
+  padding: 2rem;
+  border-radius: 16px;
+  border: 1.5px solid #3939a1cc;
+  width: 90%;
+  max-width: 600px;
+  position: relative;
+  box-shadow: 0 8px 32px #000b;
+}
+
+.close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: #aaa;
+  font-size: 1.75rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0.25rem;
+}
+.close-btn:hover {
+  color: #fff;
+}
+
+/* --- Buttons --- */
+.info-button, .about-button {
+  background: transparent;
+  border: 1px solid #646cff;
+  color: #aab3ff;
+  padding: 0.3rem 0.8rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  margin-top: 0.5rem;
+}
+
+.info-button:hover, .about-button:hover {
+  background: #646cff;
+  color: #fff;
+}
+
+.about-button {
+  color: #aab3ff;
+  border-color: #aab3ff;
+}
+
+.about-button:hover {
+  background: #aab3ff;
+  color: #111;
+}
+
+.desktop-only {
+  display: none;
+}
+
+@media (min-width: 48rem) {
+  .desktop-only {
+    display: block;
+  }
+}
+
+@media (max-width: 768px) {
+  .info-panel {
+    top: 1rem;
+    right: 1rem;
+    left: 1rem;
+    width: auto;
+    max-height: 40vh;
+  }
+}

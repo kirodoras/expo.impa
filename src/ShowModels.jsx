@@ -1,24 +1,79 @@
 import { useRef, useEffect, useState } from "react";
 import * as THREE from "three";
 import { PLYLoader } from "three/examples/jsm/loaders/PLYLoader";
+import ReactMarkdown from "react-markdown";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
+import "katex/dist/katex.min.css";
 import "./App.css";
+import PropTypes from "prop-types";
 
-const availableModels = [
-  "Cilindro_x2_y2_1.ply",
-  "Cilindro xy=1.ply",
-  "Cúbica.ply",
-  "Curva algébrica de gênero 2.ply",
-  "Folheação de grau 2.ply",
-  "Folheação de Vander Pol.ply",
-];
-
-const modelTitles = [
-  "Cilindro x²+y²=1",
-  "Cilindro xy=1",
-  "Cúbica",
-  "Curva algébrica de gênero 2",
-  "Folheação de grau 2",
-  "Folheação de Vander Pol",
+const models = [
+  {
+    file: "Cilindro_x2_y2_1.ply",
+    title: "Cilindro x²+y²=1",
+    info: String.raw`
+### Cilindro x²+y²=1
+Esta é a superfície de um cilindro circular reto ao longo do eixo z.
+A equação que descreve esta superfície é:
+$$x^2 + y^2 = 1$$
+*Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus.*
+`,
+  },
+  {
+    file: "Cilindro xy=1.ply",
+    title: "Cilindro xy=1",
+    info: String.raw`
+### Cilindro Hiperbólico xy=1
+Esta superfície é um cilindro hiperbólico.
+A equação que a descreve é:
+$$xy = 1$$
+*Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus.*
+`,
+  },
+  {
+    file: "Cúbica.ply",
+    title: "Cúbica",
+    info: String.raw`
+### Superfície Cúbica
+Uma superfície cúbica é definida por uma equação polinomial de grau 3.
+Um exemplo famoso é a Cúbica de Clebsch:
+$$x^3 + y^3 + z^3 + w^3 = (x+y+z+w)^3$$
+*Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus.*
+`,
+  },
+  {
+    file: "Curva algébrica de gênero 2.ply",
+    title: "Curva Algébrica de Gênero 2",
+    info: String.raw`
+### Curva Algébrica de Gênero 2
+Esta é uma curva complexa que pode ser representada como uma superfície de Riemann.
+A equação para uma curva hiperelíptica de gênero 2 é da forma:
+$$y^2 = x(x-1)(x-2)(x-3)(x-4)$$
+*Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus.*
+`,
+  },
+  {
+    file: "Folheação de grau 2.ply",
+    title: "Folheação de Grau 2",
+    info: String.raw`
+### Folheação de Grau 2
+Uma folheação divide uma variedade em subvariedades de dimensão inferior, chamadas folhas.
+Esta é uma folheação de grau 2 em $\mathbb{P}^2(\mathbb{C})$.
+*Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus.*
+`,
+  },
+  {
+    file: "Folheação de Vander Pol.ply",
+    title: "Folheação de Van der Pol",
+    info: String.raw`
+### Folheação de Van der Pol
+Associada ao famoso oscilador de Van der Pol, um sistema dinâmico não linear.
+A equação do oscilador é:
+$$\frac{d^2x}{dt^2} - \mu(1-x^2)\frac{dx}{dt} + x = 0$$
+*Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus.*
+`,
+  },
 ];
 
 const navBtnStyle = {
@@ -42,6 +97,86 @@ const ctrlBtnStyle = {
   userSelect: "none",
   transition: "all 0.2s cubic-bezier(.4,0,.2,1)",
 };
+const InfoPanel = ({ info, isOpen, onClose }) => {
+  useEffect(() => {
+    if (isOpen) {
+      const timer = setTimeout(() => {
+        onClose();
+      }, 180000); // 3 minutos
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen, onClose]);
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="info-panel">
+      <button onClick={onClose} className="close-btn">
+        &times;
+      </button>
+      <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>
+        {info}
+      </ReactMarkdown>
+    </div>
+  );
+};
+
+InfoPanel.propTypes = {
+  info: PropTypes.string.isRequired,
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+};
+
+const AboutModal = ({ isOpen, onClose }) => {
+  useEffect(() => {
+    if (isOpen) {
+      const timer = setTimeout(() => {
+        onClose();
+      }, 180000); // 3 minutos
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen, onClose]);
+
+  const handleOverlayClick = (e) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="modal-overlay" onClick={handleOverlayClick}>
+      <div className="modal-content">
+        <button onClick={onClose} className="close-btn">
+          &times;
+        </button>
+        <h2>Sobre os Autores</h2>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
+          pulvinar, quam et convallis feugiat, sem felis posuere tortor, nec
+          fringilla est ex sit amet arcu.
+        </p>
+        <p>
+          Phasellus quis lectus metus. Quisque eu lorem eu sem semper cursus.
+          Integer sit amet turpis vel justo suscipit tincidunt.
+        </p>
+      </div>
+    </div>
+  );
+};
+
+AboutModal.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+};
+
+const LoadingSpinner = () => (
+  <div className="loading-overlay">
+    <div className="spinner"></div>
+    <p>Carregando modelo...</p>
+  </div>
+);
 
 export default function ShowModels() {
   const mountRef = useRef();
@@ -53,8 +188,9 @@ export default function ShowModels() {
   const [rotationSpeed, setRotationSpeed] = useState(0.005);
   const [isMobile, setIsMobile] = useState(false);
   const [viewHeight, setViewHeight] = useState(window.innerHeight);
+  const [isInfoOpen, setIsInfoOpen] = useState(false);
+  const [isAboutOpen, setIsAboutOpen] = useState(false);
 
-  // Responsividade
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
@@ -65,7 +201,6 @@ export default function ShowModels() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Inicialização da cena
   useEffect(() => {
     let renderer, scene, camera, controls, animationId;
     const mountNode = mountRef.current;
@@ -78,14 +213,12 @@ export default function ShowModels() {
     renderer.setSize(width, height);
     mountNode.appendChild(renderer.domElement);
 
-    // Luz
     const ambient = new THREE.AmbientLight(0xffffff, 0.7);
     scene.add(ambient);
     const dir = new THREE.DirectionalLight(0xffffff, 0.7);
     dir.position.set(10, 10, 10);
     scene.add(dir);
 
-    // OrbitControls
     import("three/examples/jsm/controls/OrbitControls").then(
       ({ OrbitControls }) => {
         controls = new OrbitControls(camera, renderer.domElement);
@@ -94,13 +227,12 @@ export default function ShowModels() {
         controls.enablePan = false;
         controls.minDistance = 2;
         controls.maxDistance = 100;
-        loadModel(availableModels[currentIndex]);
+        loadModel(models[currentIndex].file);
       }
     );
 
     function loadModel(modelName) {
       setLoading(true);
-      // Remove mesh anterior
       if (meshRef.current) {
         scene.remove(meshRef.current);
         meshRef.current.geometry.dispose();
@@ -125,7 +257,6 @@ export default function ShowModels() {
           const center = geometry.boundingBox.getCenter(new THREE.Vector3());
           mesh.position.sub(center);
           scene.add(mesh);
-          // Ajuste de câmera
           const boundingSphere = new THREE.Sphere();
           new THREE.Box3()
             .setFromObject(mesh)
@@ -154,7 +285,7 @@ export default function ShowModels() {
       renderer.render(scene, camera);
     }
     animate();
-    // Atualiza modelo ao trocar
+
     return () => {
       cancelAnimationFrame(animationId);
       renderer.dispose();
@@ -164,12 +295,9 @@ export default function ShowModels() {
     };
   }, [currentIndex, showWireframe, isRotating, rotationSpeed]);
 
-  // Navegação
-  const goNext = () => setCurrentIndex((i) => (i + 1) % availableModels.length);
+  const goNext = () => setCurrentIndex((i) => (i + 1) % models.length);
   const goPrev = () =>
-    setCurrentIndex(
-      (i) => (i - 1 + availableModels.length) % availableModels.length
-    );
+    setCurrentIndex((i) => (i - 1 + models.length) % models.length);
 
   return (
     <div
@@ -182,7 +310,6 @@ export default function ShowModels() {
         fontFamily: "Segoe UI",
       }}
     >
-      {/* Canvas 3D ocupa todo o fundo */}
       <div
         ref={mountRef}
         style={{
@@ -195,25 +322,14 @@ export default function ShowModels() {
           background: "#111",
         }}
       />
-      {loading && (
-        <div
-          style={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%,-50%)",
-            color: "#646cff",
-            fontSize: 24,
-            background: "#111d",
-            padding: 24,
-            borderRadius: 12,
-            zIndex: 10,
-          }}
-        >
-          Carregando modelo...
-        </div>
-      )}
-      {/* HUD de controles na parte inferior, sobreposto */}
+      {loading && <LoadingSpinner />}
+      <InfoPanel
+        isOpen={isInfoOpen}
+        onClose={() => setIsInfoOpen(false)}
+        info={models[currentIndex].info}
+      />
+      <AboutModal isOpen={isAboutOpen} onClose={() => setIsAboutOpen(false)} />
+
       <div
         style={{
           position: "fixed",
@@ -313,8 +429,14 @@ export default function ShowModels() {
                     lineHeight: 1.1,
                   }}
                 >
-                  {modelTitles[currentIndex]}
+                  {models[currentIndex].title}
                 </div>
+                <button
+                  onClick={() => setIsInfoOpen(true)}
+                  className="info-button"
+                >
+                  INFO
+                </button>
               </div>
               <div className="nav-button-container">
                 <button
@@ -418,7 +540,6 @@ export default function ShowModels() {
                 {isRotating ? "Rotação ON" : "Rotação OFF"}
               </button>
             </div>
-            {/* Controles desktop extras */}
             {!isMobile && (
               <div
                 style={{
@@ -454,21 +575,17 @@ export default function ShowModels() {
                     background: "#23234a",
                   }}
                 />
-                <div
-                  style={{
-                    color: "#aab3ff",
-                    fontSize: 12,
-                    textAlign: "center",
-                    minWidth: 140,
-                    fontWeight: 500,
-                    textShadow: "0 1px 4px #0007",
-                    marginTop: 10,
-                  }}
-                ></div>
               </div>
             )}
           </div>
-
+          <div className="desktop-only">
+            <button
+              onClick={() => setIsAboutOpen(true)}
+              className="about-button"
+            >
+              Sobre os Autores
+            </button>
+          </div>
           <div className="qrcode-wrapper">
             <p className="qrcode-caption">Acesse no celular</p>
             <img src="/qrcode.png" alt="QR Code" className="qrcode-image" />
