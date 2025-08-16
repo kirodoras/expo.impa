@@ -238,12 +238,24 @@ button:active {
   margin-bottom: 1rem;
 }
 
+.about {
+  position: absolute;
+  bottom: 10%;
+  right: 1rem;
+  transform: translateY(-50%);
+  max-height: calc(100vh - 4rem);
+  z-index: 30;
+  animation: fadeIn 0.3s ease;
+}
+
+
 /* --- Info Panel --- */
 .info-panel {
   position: absolute;
-  top: 2rem;
-  right: 2rem;
-  width: 350px;
+  top: 45%;
+  left: 1rem;
+  transform: translateY(-50%);
+  width: 450px;
   max-height: calc(100vh - 4rem);
   background: rgba(24, 24, 27, 0.7);
   backdrop-filter: blur(16px) saturate(1.5);
@@ -316,7 +328,8 @@ button:active {
 }
 
 /* --- Buttons --- */
-.info-button, .about-button {
+.info-button,
+.about-button {
   background: transparent;
   border: 1px solid #646cff;
   color: #aab3ff;
@@ -328,7 +341,8 @@ button:active {
   margin-top: 0.5rem;
 }
 
-.info-button:hover, .about-button:hover {
+.info-button:hover,
+.about-button:hover {
   background: #646cff;
   color: #fff;
 }
@@ -356,9 +370,10 @@ button:active {
 @media (max-width: 768px) {
   .info-panel {
     top: 1rem;
-    right: 1rem;
     left: 1rem;
+    right: 1rem;
     width: auto;
     max-height: 40vh;
+    transform: none;
   }
 }

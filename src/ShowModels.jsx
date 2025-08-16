@@ -272,15 +272,21 @@ const AboutModal = ({ isOpen, onClose }) => {
         <button onClick={onClose} className="close-btn">
           &times;
         </button>
-        <h2>Sobre os Autores</h2>
+        <h2>Sobre os autores</h2>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
-          pulvinar, quam et convallis feugiat, sem felis posuere tortor, nec
-          fringilla est ex sit amet arcu.
+          <strong>Evilson Vieira</strong> - <a href="mailto:evilson@ufs.br">evilson@ufs.br</a><br />
+          Universidade Federal de Sergipe - UFS
         </p>
         <p>
-          Phasellus quis lectus metus. Quisque eu lorem eu sem semper cursus.
-          Integer sit amet turpis vel justo suscipit tincidunt.
+          <strong>Mateus Figueiredo</strong> - <a href="mailto:figueiredo1497@gmail.com">figueiredo1497@gmail.com</a><br />
+          <a href="https://www.linkedin.com/in/mateus-fig-pe" target="_blank" rel="noopener noreferrer">
+            www.linkedin.com/in/mateus-fig-pe
+          </a><br />
+          Universidade Federal de Sergipe - UFS
+        </p>
+        <h3>Referência</h3>
+        <p>
+          E. Vieira, Ciclos limites projetivos e aplicações computacionais à Dinâmica Complexa, Ph.D. thesis, Impa (2009).
         </p>
       </div>
     </div>
@@ -307,6 +313,10 @@ export default function ShowModels() {
   const [showWireframe, setShowWireframe] = useState(false);
   const [isRotating, setIsRotating] = useState(true);
   const [rotationSpeed, setRotationSpeed] = useState(0.005);
+  const isRotatingRef = useRef(isRotating);
+  isRotatingRef.current = isRotating;
+  const rotationSpeedRef = useRef(rotationSpeed);
+  rotationSpeedRef.current = rotationSpeed;
   const [isMobile, setIsMobile] = useState(false);
   const [viewHeight, setViewHeight] = useState(window.innerHeight);
   const [isInfoOpen, setIsInfoOpen] = useState(false);
@@ -397,10 +407,10 @@ export default function ShowModels() {
       );
     }
 
-    function animate() {
+        function animate() {
       animationId = requestAnimationFrame(animate);
-      if (meshRef.current && isRotating) {
-        meshRef.current.rotation.y += rotationSpeed;
+      if (meshRef.current && isRotatingRef.current) {
+        meshRef.current.rotation.y += rotationSpeedRef.current;
       }
       if (controls) controls.update();
       renderer.render(scene, camera);
@@ -414,11 +424,26 @@ export default function ShowModels() {
         mountNode.innerHTML = "";
       }
     };
-  }, [currentIndex, showWireframe, isRotating, rotationSpeed]);
+  }, [currentIndex]);
 
-  const goNext = () => setCurrentIndex((i) => (i + 1) % models.length);
-  const goPrev = () =>
+  useEffect(() => {
+    if (meshRef.current) {
+      meshRef.current.material.wireframe = showWireframe;
+    }
+  }, [showWireframe]);
+
+  const goNext = () => {
+    setCurrentIndex((i) => (i + 1) % models.length);
+    if (isMobile) {
+      setIsInfoOpen(false);
+    }
+  };
+  const goPrev = () => {
     setCurrentIndex((i) => (i - 1 + models.length) % models.length);
+    if (isMobile) {
+      setIsInfoOpen(false);
+    }
+  };
 
   return (
     <div
@@ -487,7 +512,12 @@ export default function ShowModels() {
         >
           <div>
             {!isMobile && (
-              <div className="desktop-nav-title">Navegue pelos modelos</div>
+              <div
+                className="desktop-nav-title"
+                style={{ marginBottom: "10px" }}
+              >
+                Navegue pelos modelos
+              </div>
             )}
             <div
               style={{
@@ -553,10 +583,10 @@ export default function ShowModels() {
                   {models[currentIndex].title}
                 </div>
                 <button
-                  onClick={() => setIsInfoOpen(true)}
+                  onClick={() => setIsInfoOpen((v) => !v)}
                   className="info-button"
                 >
-                  INFO
+                  {isMobile ? "Info" : "Informações"}
                 </button>
               </div>
               <div className="nav-button-container">
@@ -699,19 +729,16 @@ export default function ShowModels() {
               </div>
             )}
           </div>
-          <div className="desktop-only">
-            <button
-              onClick={() => setIsAboutOpen(true)}
-              className="about-button"
-            >
-              Sobre os Autores
-            </button>
-          </div>
           <div className="qrcode-wrapper">
             <p className="qrcode-caption">Acesse no celular</p>
             <img src="/qrcode.png" alt="QR Code" className="qrcode-image" />
           </div>
         </div>
+      </div>
+      <div className="about">
+        <button onClick={() => setIsAboutOpen(true)} className="about-button">
+          Sobre os autores
+        </button>
       </div>
     </div>
   );
