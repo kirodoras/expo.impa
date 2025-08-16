@@ -28,7 +28,7 @@ $$
 \\mathrm{Re}(x) \\times \\mathrm{Im}(x) \\times \\mathrm{Re}(y)
 $$
 
-Pontos de cores diferentes indicam que são pontos com coordenada $\\mathrm{Im}(x)$ diferentes.`,
+Pontos de cores diferentes indicam que são pontos com coordenada $\\mathrm{Im}(y)$ diferentes.`,
     title: "Singularidade hiperbólica",
   },
   {
@@ -105,9 +105,15 @@ $$
 em $\\mathbb C^2$ passando pelo ponto $\\left(-\\dfrac 15,-\\dfrac 15\\right)$.
 
 As curvas integrais desta EDO são, genericamente, curvas algébricas de gênero $1$ com $3$ pontos no infinito, definidas pela equação
-$$(x+y-1)(2x-y+1)(x-2y-1)=cte$$
+$$
+(x+y-1)(2x-y+1)(x-2y-1) = \\mathrm{cte}
+$$
 
-A ilustração é do toro $$(x+y-1)(2x-y+1)(x-2y-1)=-\\dfrac{112}{125}$$ subtraído de três discos.
+A ilustração é do toro
+$$
+(x+y-1)(2x-y+1)(x-2y-1)=-\\dfrac{112}{125}
+$$
+subtraído de três discos.
 
 Para ser visualizada, esta superfície foi projetada ortogonalmente no espaço euclidiano tridimensional
 $$
@@ -274,19 +280,29 @@ const AboutModal = ({ isOpen, onClose }) => {
         </button>
         <h2>Sobre os autores</h2>
         <p>
-          <strong>Evilson Vieira</strong> - <a href="mailto:evilson@ufs.br">evilson@ufs.br</a><br />
+          <strong>Evilson Vieira</strong> -{" "}
+          <a href="mailto:evilson@ufs.br">evilson@ufs.br</a>
+          <br />
           Universidade Federal de Sergipe - UFS
         </p>
         <p>
-          <strong>Mateus Figueiredo</strong> - <a href="mailto:figueiredo1497@gmail.com">figueiredo1497@gmail.com</a><br />
-          <a href="https://www.linkedin.com/in/mateus-fig-pe" target="_blank" rel="noopener noreferrer">
+          <strong>Mateus Figueiredo</strong> -{" "}
+          <a href="mailto:figueiredo1497@gmail.com">figueiredo1497@gmail.com</a>
+          <br />
+          <a
+            href="https://www.linkedin.com/in/mateus-fig-pe"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             www.linkedin.com/in/mateus-fig-pe
-          </a><br />
+          </a>
+          <br />
           Universidade Federal de Sergipe - UFS
         </p>
         <h3>Referência</h3>
         <p>
-          E. Vieira, Ciclos limites projetivos e aplicações computacionais à Dinâmica Complexa, Ph.D. thesis, Impa (2009).
+          E. Vieira, Ciclos limites projetivos e aplicações computacionais à
+          Dinâmica Complexa, Ph.D. thesis, Impa (2009).
         </p>
       </div>
     </div>
@@ -407,7 +423,7 @@ export default function ShowModels() {
       );
     }
 
-        function animate() {
+    function animate() {
       animationId = requestAnimationFrame(animate);
       if (meshRef.current && isRotatingRef.current) {
         meshRef.current.rotation.y += rotationSpeedRef.current;
