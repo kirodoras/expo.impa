@@ -25,10 +25,10 @@ As curvas integrais desta EDO são superfícies de Riemann que ilustram o compor
 
 Para ser visualizada, esta superfície foi projetada ortogonalmente no espaço euclidiano tridimensional
 $$
-\\mathrm{Re}(x) \\times \\mathrm{Im}(x) \\times \\mathrm{Re}(y)
+\\mathrm{Re}(x) \\times \\mathrm{Re}(y) \\times \\mathrm{Im}(y)
 $$
 
-Pontos de cores diferentes indicam que são pontos com coordenada $\\mathrm{Im}(y)$ diferentes.`,
+Pontos de cores diferentes indicam que são pontos com coordenada $\\mathrm{Im}(x)$ diferentes.`,
     title: "Singularidade hiperbólica",
   },
   {
@@ -753,7 +753,7 @@ export default function ShowModels() {
       </div>
       <div className="about">
         <button onClick={() => setIsAboutOpen(true)} className="about-button">
-          Sobre os autores
+          {isMobile ? "Autores" : "Sobre os autores"}
         </button>
       </div>
     </div>
