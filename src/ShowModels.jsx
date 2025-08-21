@@ -340,6 +340,18 @@ const AboutModal = ({ isOpen, onClose }) => {
           E. Vieira, Ciclos limites projetivos e aplicações computacionais à
           Dinâmica Complexa, Ph.D. thesis, Impa (2009).
         </p>
+        <div>
+          <p>Acesse a aplicação no seu celular</p>
+          <img
+            style={{
+              overflow: "hidden",
+              width: "200px",
+            }}
+            src="/qrcode.png"
+            alt="QR Code"
+            className="qrcode-image"
+          />
+        </div>
       </div>
     </div>
   );
